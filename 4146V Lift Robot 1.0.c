@@ -101,6 +101,24 @@ void DriveRightSide( int s ) {
 void DriveAll(int s){
 	Drive(s, s, s, s);
 }
+void DriveStraight (int r, int l){
+	SensorValue[rightEncoder] = 0;
+	SensorValue[leftEncoder] = 0;
+
+	while(SensorValue[rightEncoder] > r && SensorValue[leftEncoder] < l) {
+		if(abs(SensorValue[rightEncoder]) == abs(SensorValue[leftEncoder])) {
+			DriveAll(60);
+		}
+		if(abs(SensorValue[rightEncoder]) > abs(SensorValue[leftEncoder])) {
+			DriveLeftSide(60);
+			DriveRightSide(50);
+		}
+		if(abs(SensorValue[rightEncoder]) < abs(SensorValue[leftEncoder])) {
+			DriveLeftSide(50);
+			DriveRightSide(60);
+		}
+	}
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 //                          Pre-Autonomous Functions
@@ -140,12 +158,24 @@ task autoRightEncoderGo () {
 }*/
 task autonomous()
 {
+	DriveStraight(-500,500);
+	/*
 	SensorValue[rightEncoder] = 0;
 	SensorValue[leftEncoder] = 0;
 
 	while(SensorValue[rightEncoder] > -500 && SensorValue[leftEncoder] < 500) {
-		DriveAll(60);
-	}
+		if(abs(SensorValue[rightEncoder]) == abs(SensorValue[leftEncoder])) {
+			DriveAll(60);
+		}
+		if(abs(SensorValue[rightEncoder]) > abs(SensorValue[leftEncoder])) {
+			DriveLeftSide(60);
+			DriveRightSide(50);
+		}
+		if(abs(SensorValue[rightEncoder]) < abs(SensorValue[leftEncoder])) {
+			DriveLeftSide(50);
+			DriveRightSide(60);
+		}
+	}*/
 	DriveAll(0);
 
 
