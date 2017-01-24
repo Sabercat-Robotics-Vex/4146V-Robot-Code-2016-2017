@@ -1,3 +1,4 @@
+//testing a thing
 #pragma config(Sensor, in1,    liftAngle,      sensorPotentiometer)
 #pragma config(Sensor, dgtl2,  rightEncoder,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl4,  leftEncoder,    sensorQuadEncoder)
