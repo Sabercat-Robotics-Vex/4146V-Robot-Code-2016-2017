@@ -25,22 +25,22 @@
 #pragma userControlDuration(120)
 
 #include "Vex_Competition_Includes.c"   //Main competition background code...do not modify!
-
+/*
 void batmanDrive(int leftD, int rightD){
 	motor[batmanLeftDrive] = leftD;
 	motor[batmanRightDrive] = rightD;
 }
-
+*/
 void robinDrive(int leftD, int rightD){
 	motor[leftDrive] = leftD;
 	motor[rightDrive] = rightD;
 }
-
+/*
 void batmanArm(int lArm, int rArm) {
 	motor[leftArmY] = lArm;
 	motor[rightArmY] = rArm;
 }
-
+*/
 void robinArm(int tL, int bL, int tR, int bR) {
 	motor[topLeft] = tL;
 	motor[bottomLeft] = bL;
@@ -77,10 +77,10 @@ void pre_auton()
 
 task autonomous()
 {
-  //open batman and let robin out
-	batmanArm(70, 70);
-	waitUntil(SensorValue[batmanAngle] >= 1700);
-	batmanArm(10, 10);
+ //open batman and let robin out
+	//batmanArm(70, 70);
+	//waitUntil(SensorValue[batmanAngle] >= 1700);
+	//batmanArm(10, 10);
 
 	robinArm(70, 70, 70, 70);
 	waitUntil(SensorValue[armAngle] <= 2550);
@@ -90,10 +90,10 @@ task autonomous()
 	wait1Msec(2700);
 	robinDrive(0, 0);
 
-	batmanDrive(35,-35);
+//	batmanDrive(35,-35);
 	robinDrive(-100,-100);
 	wait1Msec(750);
-	batmanDrive(0,0);
+//	batmanDrive(0,0);
 	robinDrive(0,0);
 
 	/*batmanArm(-20,-20);
@@ -104,6 +104,7 @@ task autonomous()
 	batmanDrive(100,100);
 	wait1Msec(1750);
 	batmanDrive(0,0);*/
+
 	//AutonomousCodePlaceholderForTesting();  // Remove this function call once you have "real" code.
 }
 
@@ -147,7 +148,7 @@ while(true)
 		}
 
 
-
+/*
 		motor[batmanLeftDrive] = vexRT[Ch3Xmtr2];
 		motor[batmanRightDrive] = vexRT[Ch2Xmtr2];
 
@@ -166,6 +167,6 @@ while(true)
 			motor[rightArmY] = 10;
 		}
 		SensorValue[batmanAngle] = 0;
-		wait1Msec(25);
+		wait1Msec(25);*/
 	}
 }
