@@ -74,20 +74,26 @@ task RobinAuto ()
 {
 	//robin backs up from the fence
 	robinDrive(-100,-100);
-	wait1Msec(1550);
+	wait1Msec(1000);
 	robinDrive(0,0);
 
 	SensorValue[armAngle] = 0;
 	//motor[robinRDrive] = 100;
 	//waitUntil(SensorValue[rightEncoder] >= 1300);
 	//while(SensorValue[rightEncoder] < 500 && SensorValue[leftEncoder] < 500) {
-		robinDrive(-100, 100);
-		wait1Msec(700);
+
+	//robin turns
+	robinDrive(-100, 100);
+	wait1Msec(700);
 	//}
 	robinDrive(0, 0);
-	robinDriveStraight(-1300, 1300);
+	//robin hits the wall
+	//1300 encoder value
+	robinDrive(100, 100);
+	wait1Msec(1700);
 	robinDrive (0, 0);
 
+	//turns to face away from the fence
 	SensorValue[leftEncoder] = 0;
 	while(SensorValue[leftEncoder] < 800) {
 		robinDrive(-100, 0);
@@ -96,10 +102,33 @@ task RobinAuto ()
 	//700 left
 	//600
 
+	//lower arm
+	robinArm(-50, -50, -50, -50);
+	waitUntil(SensorValue[armAngle] >= 2700);
+	robinArm(0,0,0,0);
 
-	//robinArm(-50, -50, -50, -50);
-	//waitUntil(SensorValue[armAngle] >= 2700);
-	//robinArm(0,0,0,0);
+	//drive forward to pick up stars
+	robinDriveStraight(-1000, 1000);
+	robinDrive(0,0);
+
+	//robin picks up stars
+	robinArm(50, 50, 50, 50);
+	waitUntil(SensorValue[armAngle] <= 2000);
+	robinArm(10,10,10,10);
+
+	//robin drives backwards to the fence
+	SensorValue[leftEncoder] = 0;
+	SensorValue[rightEncoder] = 0;
+	robinDrive(-100, -100);
+	waitUntil(SensorValue[leftEncoder] >= 1800 && SensorValue[rightEncoder] <= -1800);
+	robinDrive(0,0);
+
+	//dumps stars over the fence
+	robinArm(80,80,80,80);
+	waitUntil(SensorValue[armAngle] <= 400);
+	robinArm(-50,-50,-50,-50);
+	waitUntil(SensorValue[armAngle] >= 2700);
+	robinArm(0,0,0,0);
 
 }
 
@@ -158,10 +187,10 @@ void pre_auton()
 task autonomous()
 {
 	//batman arm opens out
-	batmanArm(70, 70);
+/*	batmanArm(70, 70);
 	waitUntil(SensorValue[batmanAngle] >= 1700);
 	batmanArm(10, 10);
-
+*/
 	//robin drives forward
 	robinDrive(100, 100);
 	wait1Msec(800);
