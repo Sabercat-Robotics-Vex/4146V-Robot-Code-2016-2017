@@ -340,6 +340,41 @@ task autonomous()
 	if(SensorValue[autoSwitch] > 3600) {
 
 	}
+	////////////////////////S robin just forward//////////////////////
+	if(SensorValue[autoSwitch] < 1000 && SensorValue[autoSwitch] >= 0) {
+		batmanArm(100, 100);
+	waitUntil(SensorValue[batmanAngle] >= 1700);
+	batmanArm(10, 10);
+
+
+	//robin drives forward
+	robinDrive(100, 100);
+	wait1Msec(800);
+	robinDrive(0, 0);
+
+	//robin arm goes up
+/*	robinArm(30, 30, 30, 30);
+	//wait1Msec(500);
+	waitUntil(SensorValue[armAngle] <= 1100);
+	robinArm(0,0,0,0);
+	robinDriveStraight(-2400, 2400);
+	robinDrive(0,0);
+	*/
+	robinArm(40, 40, 40, 40);
+	//wait1Msec(500);
+	SensorValue[leftEncoder] = 0;
+	SensorValue[rightEncoder] = 0;
+	robinDrive(100, 100);
+	waitUntil(SensorValue[armAngle] <= 1200);
+	robinArm(0,0,0,0);
+	waitUntil(SensorValue[leftEncoder] <= -2400 && SensorValue[rightEncoder] >= 2400);
+	robinDrive(0,0);
+
+	robinDrive(-100,-100);
+	wait1Msec(1000);
+	robinDrive(0,0);
+
+	}
 //AutonomousCodePlaceholderForTesting();  // Remove this function call once you have "real" code.
 }
 
