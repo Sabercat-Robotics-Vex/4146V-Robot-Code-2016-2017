@@ -61,8 +61,8 @@ task usercontrol()
 {
 	// User control code here, inside the loop
 
-while(true)
-	{
+	while(true)
+		{
 
-	}
+		}
 }

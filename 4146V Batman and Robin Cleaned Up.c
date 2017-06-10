@@ -30,36 +30,36 @@
 #include "Vex_Competition_Includes.c"   //Main competition background code...do not modify!
 
 /* Use Void Functions instead of setting each individual motor */
-void batmanDrive( int leftD, int rightD ){
-motor[batmanLeftDrive] = leftD;
-motor[batmanRightDrive] = rightD;
+void batmanDrive(int leftD, int rightD) {
+	motor[batmanLeftDrive] = leftD;
+	motor[batmanRightDrive] = rightD;
 }
 
-void robinDrive( int leftD, int rightD ){
-motor[robinLeftDrive] = leftD;
-motor[robinRightDrive] = rightD;
+void robinDrive(int leftD, int rightD) {
+	motor[robinLeftDrive] = leftD;
+	motor[robinRightDrive] = rightD;
 }
 
-void batmanArmSeparate( int lArm, int rArm ) {
-motor[batmanLLift] = lArm;
-motor[batmanRLift] = rArm;
+void batmanArmSeparate(int lArm, int rArm) {
+	motor[batmanLLift] = lArm;
+	motor[batmanRLift] = rArm;
 }
 
 // Allows you to only input one value instead of 2 of the same
-void batmanArm( int s ) {
-	batmanArmSeparate( s, s );
+void batmanArm(int s) {
+	batmanArmSeparate(s, s);
 }
 
-void robinArmSeparate( int tL, int bL, int tR, int bR ) {
-motor[robinLTopLift] = tL;
-motor[robinLBottomLift] = bL;
-motor[robinRTopLift] = tR;
-motor[robinRBottomLift] = bR;
+void robinArmSeparate(int tL, int bL, int tR, int bR) {
+	motor[robinLTopLift] = tL;
+	motor[robinLBottomLift] = bL;
+	motor[robinRTopLift] = tR;
+	motor[robinRBottomLift] = bR;
 }
 
 // Allows you to only input one value instead of 4 of the same
-void robinArm( int s ) {
-	robinArmSeparate( s, s, s, s );
+void robinArm(int s) {
+	robinArmSeparate(s, s, s, s);
 }
 
 /*
@@ -67,19 +67,19 @@ void robinArm( int s ) {
 *	are lined up with each other and compensates by makeing one side
 *	slower if they are not lined up
 */
-void robinDriveStraight ( int l, int r ){
+void robinDriveStraight(int l, int r) {
 	SensorValue[leftEncoder] = 0;
 	SensorValue[rightEncoder] = 0;
 
 	while(SensorValue[rightEncoder] < r && SensorValue[leftEncoder] > l) {
-		if(abs(SensorValue[rightEncoder]) == abs(SensorValue[leftEncoder])) {
+		if (abs(SensorValue[rightEncoder]) == abs(SensorValue[leftEncoder])) {
 			robinDrive(110, 110);
 		}
-		if(abs(SensorValue[rightEncoder]) > abs(SensorValue[leftEncoder])) {
+		if (abs(SensorValue[rightEncoder]) > abs(SensorValue[leftEncoder])) {
 			motor[robinLeftDrive] = 110;
 			motor[robinRightDrive] = 100;
 		}
-		if(abs(SensorValue[rightEncoder]) < abs(SensorValue[leftEncoder])) {
+		if (abs(SensorValue[rightEncoder]) < abs(SensorValue[leftEncoder])) {
 			motor[robinLeftDrive] = 100;
 			motor[robinRightDrive] = 110;
 		}
@@ -102,11 +102,11 @@ task RobinAuto ()
 	// robin hits the wall
 	robinDrive(100, 100);
 	wait1Msec(1750);
-	robinDrive (0, 0);
+	robinDrive(0, 0);
 
 	// robin turns to face away from the fence
 	SensorValue[leftEncoder] = 0;
-	while(SensorValue[leftEncoder] < 800) {
+	while (SensorValue[leftEncoder] < 800) {
 		robinDrive(-100, 0);
 	}
 	robinDrive(0,0);
@@ -205,7 +205,7 @@ void pre_auton()
 task autonomous()
 {
 	//////////////////////////Robin and Batman//////////////////////////////////////
-	if(SensorValue[autoSwitch] > 2000 && SensorValue[autoSwitch] < 3200) {
+	if (SensorValue[autoSwitch] > 2000 && SensorValue[autoSwitch] < 3200) {
 		// batman arm opens out
 		batmanArm(100);
 		waitUntil(SensorValue[batmanAngle] >= 1700);
@@ -226,12 +226,12 @@ task autonomous()
 		waitUntil(SensorValue[leftEncoder] <= -2400 && SensorValue[rightEncoder] >= 2400);
 		robinDrive(0,0);
 
-		startTask( RobinAuto );
-		startTask( BatmanAuto );
+		startTask(RobinAuto);
+		startTask(BatmanAuto);
 	}
 
 	//////////////////////////Robin NO Batman///////////////////////////////
-	else if(SensorValue[autoSwitch] > 1000 && SensorValue[autoSwitch] < 2000) {
+	else if (SensorValue[autoSwitch] > 1000 && SensorValue[autoSwitch] < 2000) {
 		// batman arm opens out
 		batmanArm(100);
 		waitUntil(SensorValue[batmanAngle] >= 1700);
@@ -252,16 +252,16 @@ task autonomous()
 		waitUntil(SensorValue[leftEncoder] <= -2400 && SensorValue[rightEncoder] >= 2400);
 		robinDrive(0,0);
 
-		startTask( RobinAuto );
+		startTask(RobinAuto);
 	}
 
 	////////////////////////////////No Auto///////////////////////////////////////
-	if(SensorValue[autoSwitch] > 3600) {
+	if (SensorValue[autoSwitch] > 3600) {
 
 	}
 
 	/////////////////////////////Robin just forward///////////////////////////
-	if(SensorValue[autoSwitch] < 1000 && SensorValue[autoSwitch] >= 0) {
+	if (SensorValue[autoSwitch] < 1000 && SensorValue[autoSwitch] >= 0) {
 		batmanArm(100);
 		waitUntil(SensorValue[batmanAngle] >= 1700);
 		batmanArm(10);
@@ -302,10 +302,10 @@ task autonomous()
 task usercontrol()
 {
 	// User control code here, inside the loop
-	stopTask( RobinAuto );
-	stopTask( BatmanAuto );
+	stopTask(RobinAuto);
+	stopTask(BatmanAuto);
 
-	while(true)
+	while (true)
 	{
 		// Assigns robin's drive to main joystick controls.
 		motor[robinLeftDrive] = vexRT[Ch3];
